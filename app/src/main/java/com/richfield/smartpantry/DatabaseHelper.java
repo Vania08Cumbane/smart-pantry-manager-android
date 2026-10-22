@@ -1,3 +1,6 @@
+// NOTE: DatabaseHelper manages local data operations for the Smart Pantry Manager.
+// This comment is documentation only—no functional changes.
+
 package com.richfield.smartpantry;
 
 import android.content.ContentValues;
