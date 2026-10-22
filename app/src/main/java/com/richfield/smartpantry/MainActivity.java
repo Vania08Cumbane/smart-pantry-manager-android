@@ -1,3 +1,5 @@
+// NOTE: This is the main entry point for the app UI (activity). No functional changes here—only documentation.
+
 package com.richfield.smartpantry;
 
 import android.content.Intent;
