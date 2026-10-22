@@ -2,6 +2,15 @@
 
 A Java Android application that helps reduce food waste by tracking leftover ingredients in your pantry and suggesting recipes you can make **strictly** with what you already have.
 
+# Smart Pantry Manager (Android)
+
+This is the Android application for the Smart Pantry Manager assignment.
+
+## Setup
+- Open in Android Studio
+- Sync Gradle
+- Run the app on an emulator or device
+
 ## Features
 
 - **Pantry management**: Add, edit, delete ingredients (name, quantity, unit, optional expiry date)
