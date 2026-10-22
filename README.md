@@ -70,4 +70,6 @@ Located in `DatabaseHelper.getSuggestedRecipes()`:
 
 ## GitHub
 
-Create a public repository, push this project, and make at least 10 incremental commits with clear messages as required by the assignment.
+GitHub
+Repository: https://github.com/Vania08Cumbane/smart-pantry-manager-android
+
