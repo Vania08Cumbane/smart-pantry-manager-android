@@ -1,0 +1,102 @@
+package com.richfield.smartpantry;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity {
+
+    private DatabaseHelper db;
+    private RecyclerView recycler;
+    private TextView tvEmpty;
+    private PantryAdapter adapter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        db = new DatabaseHelper(this);
+        recycler = findViewById(R.id.recyclerPantry);
+        tvEmpty = findViewById(R.id.tvEmptyPantry);
+        FloatingActionButton fab = findViewById(R.id.fabAdd);
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
+
+        recycler.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new PantryAdapter(db.getAllPantryItems(), new PantryAdapter.OnItemClickListener() {
+            @Override
+            public void onEdit(PantryItem item) {
+                Intent i = new Intent(MainActivity.this, AddEditIngredientActivity.class);
+                i.putExtra("id", item.getId());
+                startActivity(i);
+            }
+
+            @Override
+            public void onDelete(PantryItem item) {
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("Delete")
+                        .setMessage("Remove " + item.getName() + " from pantry?")
+                        .setPositiveButton("Delete", (d, w) -> {
+                            db.deletePantryItem(item.getId());
+                            loadData();
+                            Toast.makeText(MainActivity.this, "Deleted", Toast.LENGTH_SHORT).show();
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .show();
+            }
+        });
+        recycler.setAdapter(adapter);
+
+        fab.setOnClickListener(v -> {
+            Intent i = new Intent(MainActivity.this, AddEditIngredientActivity.class);
+            startActivity(i);
+        });
+
+        bottomNav.setSelectedItemId(R.id.nav_pantry);
+        bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.nav_pantry) {
+                return true;
+            } else if (id == R.id.nav_suggested) {
+                startActivity(new Intent(this, SuggestedRecipesActivity.class));
+                return true;
+            } else if (id == R.id.nav_settings) {
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+            }
+            return false;
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadData();
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
+        if (bottomNav != null) bottomNav.setSelectedItemId(R.id.nav_pantry);
+    }
+
+    private void loadData() {
+        List<PantryItem> items = db.getAllPantryItems();
+        adapter.updateData(items);
+        if (items.isEmpty()) {
+            recycler.setVisibility(View.GONE);
+            tvEmpty.setVisibility(View.VISIBLE);
+        } else {
+            recycler.setVisibility(View.VISIBLE);
+            tvEmpty.setVisibility(View.GONE);
+        }
+    }
+}

@@ -1,0 +1,57 @@
+SMART PANTRY MANAGER – WRITTEN REPORT TEMPLATE
+(Replace with your details, take real screenshots from the running app, then save as PDF/DOCX)
+
+1. COVER PAGE
+   App name: Smart Pantry Manager
+   Student name: ____________________
+   Student number: ____________________
+   Module: Mobile App Development 700
+   Date: ____________________
+
+2. TABLE OF CONTENTS
+   (generate in Word)
+
+3. INTRODUCTION
+   The Smart Pantry Manager solves the problem of food waste by letting users track leftover ingredients at home and suggesting only recipes they can cook with what they already have. No shopping list, no almost-matches – strict matching only. Target users: students, busy households, anyone who wants to use leftovers.
+
+4. SYSTEM DESIGN
+   - Screen flow: Main (Pantry List) ↔ Add/Edit Ingredient | Suggested Recipes → Recipe Detail | Settings
+     (draw a simple diagram in Word or draw.io)
+   - Data model:
+     pantry(id, name, quantity, unit, expiry)
+     recipes(id, name, method)
+     recipe_ingredients(id, recipe_id, ingredient_name, quantity, unit)
+
+5. SCREENSHOTS
+   Take real screenshots of:
+   - Empty pantry
+   - Add ingredient form (with validation error)
+   - Pantry list with items
+   - Edit / Delete
+   - Suggested recipes (with matches)
+   - Suggested recipes (empty message)
+   - Recipe detail
+   - Settings screen
+   Caption each one.
+
+6. KEY CODE SNIPPETS
+   - DatabaseHelper.getSuggestedRecipes() – the strict matching algorithm
+   - DatabaseHelper.normalise() – robust name matching
+   - PantryAdapter – custom RecyclerView adapter
+   - AddEditIngredientActivity.save() – input validation
+   - MainActivity bottom navigation + Intents
+
+7. CHALLENGES AND SOLUTIONS
+   1. Preventing ANR: used pure local SQLite, no network, small data set, fast queries.
+   2. Singular/plural ingredient names: simple normalise() method instead of exact string match.
+   3. Showing empty state cleanly: visibility toggle between RecyclerView and message TextView.
+
+8. CONCLUSION AND REFLECTION
+   Learned Activity lifecycle, Intents, RecyclerView + Adapter, SQLite CRUD, and the importance of strict business rules. Future improvements: expiry notifications, “Almost There” list, barcode scanning.
+
+9. REFERENCES
+   - Android Developers documentation (SQLiteOpenHelper, RecyclerView)
+   - Material Components for Android
+   - Module notes on persistent storage and Activities
+
+Remember: include a working GitHub link in the final report.
